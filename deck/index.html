@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buku — Tutup buku bulanan untuk kantor akuntan</title>
+<meta name="description" content="Buku menggabungkan buku besar double-entry, bukti dokumen, dan konteks perusahaan agar kantor akuntan menyusun pembukuan dan menutup periode dengan percaya diri.">
+<meta property="og:title" content="Buku — Tutup buku bulanan untuk kantor akuntan">
+<meta property="og:description" content="Dari rekening koran ke laporan keuangan, lalu tutup buku dengan percaya diri.">
+<link rel="icon" href="assets/buku-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --primary:#1D5BD8; --primary-hover:#184DBE; --primary-subtle:#EDF2FD; --primary-soft:#DCE7FB;
+  --ink:#0B1B32; --muted:#53627C; --line:#E1E8F3; --canvas:#F5F7FA; --card:#FFFFFF;
+  --amber:#B7791F; --amber-bg:#FFF6E0; --green:#1E8E5A; --green-bg:#E5F6EE; --red:#C2410C;
+  --radius:20px; --shadow:0 1px 2px rgba(11,27,50,.05),0 12px 32px -12px rgba(29,91,216,.18);
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;background:var(--canvas)}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--canvas);-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
+svg{display:block}
+.icon{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--primary);outline-offset:3px;border-radius:8px}
+
+/* ---------- Slide frame ---------- */
+.slide{position:relative;min-height:100vh;min-height:100dvh;scroll-snap-align:start;display:flex;align-items:center;padding:96px 7vw 80px;overflow:hidden;isolation:isolate}
+.slide>.wrap{width:100%;max-width:1240px;margin:0 auto;position:relative;z-index:2}
+.slide.alt{background:#fff}
+.bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+canvas.bg{width:100%;height:100%}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--primary);margin-bottom:22px}
+.eyebrow i{width:26px;height:2px;background:var(--primary);border-radius:2px}
+h1,h2{letter-spacing:-.035em;line-height:1.04;font-weight:700}
+h1{font-size:clamp(34px,4.1vw,60px)}
+h2{font-size:clamp(30px,3.7vw,54px)}
+.lead{font-size:clamp(16px,1.35vw,19px);color:var(--muted);max-width:56ch;margin-top:22px}
+.grid2{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,5vw,80px);align-items:center}
+.grad{background:linear-gradient(100deg,#1D5BD8 0%,#4C8DFF 35%,#7B6CF0 65%,#1D5BD8 100%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradmove 7s linear infinite}
+@keyframes gradmove{to{background-position:-240% 0}}
+.shiny{background:linear-gradient(110deg,var(--muted) 35%,#1D5BD8 50%,var(--muted) 65%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 4s linear infinite}
+@keyframes shine{from{background-position:150% 0}to{background-position:-50% 0}}
+
+/* ---------- Reveal (blur text + generic) ---------- */
+.js .w{display:inline-block;opacity:0;filter:blur(12px);transform:translateY(.4em);transition:opacity .7s ease,filter .7s ease,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i)*40ms)}
+.js .slide.in .w{opacity:1;filter:blur(0);transform:none}
+.js .rv{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--d,0)*1ms + 250ms)}
+.js .slide.in .rv{opacity:1;transform:none}
+
+/* ---------- Chrome ---------- */
+.topbar{position:fixed;inset:0 0 auto 0;height:3px;z-index:50;background:transparent}
+.topbar b{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),#7B6CF0);transition:width .25s}
+.brand{position:fixed;top:22px;left:7vw;z-index:40;display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em;font-size:18px;text-decoration:none}
+.brand img{width:30px;height:30px;border-radius:8px}
+.brand small{font:500 11px var(--mono);color:var(--muted);letter-spacing:.06em;border-left:1px solid var(--line);padding-left:10px;margin-left:2px}
+.rail{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:10px}
+.rail button{width:10px;height:10px;border-radius:50%;border:1.5px solid #9DB0D1;background:transparent;cursor:pointer;padding:0;position:relative;transition:.25s}
+.rail button.on{background:var(--primary);border-color:var(--primary);transform:scale(1.35)}
+.rail button span{position:absolute;right:20px;top:50%;transform:translateY(-50%);white-space:nowrap;font:500 11px var(--mono);background:var(--ink);color:#fff;padding:5px 9px;border-radius:6px;opacity:0;pointer-events:none;transition:.2s}
+.rail button:hover span,.rail button:focus-visible span{opacity:1}
+.counter{position:fixed;left:7vw;bottom:20px;z-index:40;font:500 12px var(--mono);color:var(--muted);letter-spacing:.1em;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.82);backdrop-filter:blur(8px);border:1px solid var(--line)}
+.hint{position:fixed;right:7vw;bottom:24px;z-index:40;font:500 12px var(--mono);color:var(--muted);display:flex;gap:8px;align-items:center}
+kbd{font:500 11px var(--mono);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:2px 7px;background:#fff}
+
+/* ---------- Buttons ---------- */
+.btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 15px Inter,system-ui,sans-serif;text-decoration:none;padding:15px 24px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);transition:background .2s,box-shadow .2s,transform .15s;cursor:pointer}
+.btn:hover{box-shadow:var(--shadow)}
+.btn.pri{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 10px 24px -8px rgba(29,91,216,.55)}
+.btn.pri:hover{background:var(--primary-hover)}
+.magnet{display:inline-block;will-change:transform;transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+
+/* ---------- Cards ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.spot{position:relative;overflow:hidden}
+.spot::before{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),rgba(29,91,216,.13),transparent 70%);opacity:0;transition:opacity .3s;pointer-events:none}
+.spot:hover::before{opacity:1}
+.spot:hover{border-color:#BFD1F3;transform:translateY(-3px)}
+.spot{transition:transform .25s,border-color .25s}
+
+/* ---------- Slide 1 hero ---------- */
+#s1{background:linear-gradient(180deg,#F7FAFF 0%,#EEF3FC 100%)}
+.hero-art{width:100%;max-width:640px;justify-self:end;overflow:visible}
+.float{animation:float 7s ease-in-out infinite}
+.float.b{animation-delay:-2.3s;animation-duration:8s}
+.float.c{animation-delay:-4.6s;animation-duration:9s}
+@keyframes float{50%{transform:translateY(-12px)}}
+.flow{stroke-dasharray:6 8;animation:dash 1.4s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-28}}
+.pulse{animation:pulse 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{50%{transform:scale(1.25);opacity:.55}}
+.scrollcue{margin-top:56px;display:flex;align-items:center;gap:12px;font:500 12px var(--mono);color:var(--muted);letter-spacing:.1em}
+.scrollcue i{width:22px;height:34px;border:1.5px solid #9DB0D1;border-radius:12px;position:relative}
+.scrollcue i::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:var(--primary);animation:cue 1.8s infinite}
+@keyframes cue{60%{transform:translateY(11px);opacity:0}}
+
+/* ---------- Slide 2 problem ---------- */
+#s2{background:#fff}
+.pains{list-style:none;margin-top:30px;display:grid;gap:12px}
+.pains li{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:#fff;font-size:15.5px}
+.pains li b{display:block;font-weight:600}
+.pains li span{color:var(--muted);font-size:14px}
+.pains .ic{flex:none;width:38px;height:38px;border-radius:12px;background:var(--amber-bg);color:var(--amber);display:grid;place-items:center;font-size:20px}
+.mess{width:100%;max-width:620px;justify-self:end}
+.sheet{animation:jitter 6s ease-in-out infinite}
+.sheet:nth-child(2){animation-delay:-1.5s}.sheet:nth-child(3){animation-delay:-3s}.sheet:nth-child(4){animation-delay:-4.5s}
+@keyframes jitter{50%{transform:translate(4px,-6px) rotate(.6deg)}}
+.tick{animation:spin 8s linear infinite;transform-box:fill-box;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- Slide 3 architecture ---------- */
+.arch{margin-top:40px;display:grid;grid-template-columns:1fr 54px;gap:14px}
+.arch-main{display:grid;gap:14px}
+.a-row{display:grid;gap:14px}
+.a-top{grid-template-columns:1fr}
+.a-found{grid-template-columns:1fr 1.25fr 1fr}
+.a-out{grid-template-columns:repeat(3,1fr)}
+.node{padding:18px 20px;border-radius:18px;border:1px solid var(--line);background:#fff;position:relative;display:flex;gap:14px;align-items:flex-start}
+.node .ni{flex:none;width:42px;height:42px;border-radius:13px;background:var(--primary-subtle);color:var(--primary);display:grid;place-items:center;font-size:22px}
+.node b{display:block;font-size:15.5px;font-weight:650}
+.node span{display:block;color:var(--muted);font-size:13px;line-height:1.45;margin-top:2px}
+.node.core{background:linear-gradient(160deg,#1D5BD8,#3F7BF0);color:#fff;border-color:transparent;box-shadow:0 18px 40px -14px rgba(29,91,216,.6)}
+.node.core .ni{background:rgba(255,255,255,.18);color:#fff}.node.core span{color:rgba(255,255,255,.85)}
+.node.top{justify-content:center;text-align:center;background:var(--primary-subtle);border-style:dashed;border-color:#B7CBF3}
+.a-ai{padding:14px 20px;border-radius:999px;background:linear-gradient(90deg,#EEF3FF,#F3EEFF);border:1px solid #D6DDFA;display:flex;align-items:center;justify-content:center;gap:10px;font:500 13px var(--mono);letter-spacing:.04em;color:#3D4FA8;position:relative;overflow:hidden}
+.a-ai::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.9) 50%,transparent 70%);transform:translateX(-100%);animation:sweep 3.6s infinite}
+@keyframes sweep{to{transform:translateX(100%)}}
+.vband{writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;border-radius:18px;background:var(--ink);color:#fff;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:14px 0}
+.arrowdown{display:flex;justify-content:center;color:#9DB0D1;margin:-4px 0}
+
+/* ---------- Slide 4 workflow ---------- */
+#s4{background:#fff}
+.pipe{margin-top:48px;position:relative}
+.pipe-track{position:absolute;left:5%;right:5%;top:46px;height:4px;border-radius:4px;background:var(--line)}
+.pipe-fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:4px;background:linear-gradient(90deg,var(--primary),#7B6CF0);transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative}
+.step{background:none;border:0;text-align:center;cursor:pointer;font:inherit;color:inherit;padding:0}
+.step .orb{width:92px;height:92px;margin:0 auto;border-radius:50%;background:#fff;border:1.5px solid var(--line);display:grid;place-items:center;font-size:34px;color:#8CA0C4;position:relative;transition:.35s;box-shadow:0 0 0 8px #fff}
+.step.on .orb,.step.done .orb{border-color:var(--primary);color:var(--primary)}
+.step.on .orb{background:var(--primary);color:#fff;transform:scale(1.08);box-shadow:0 0 0 8px #fff,0 16px 34px -10px rgba(29,91,216,.6)}
+.step .n{font:500 11px var(--mono);color:var(--muted);margin-top:18px;letter-spacing:.12em}
+.step h3{font-size:19px;letter-spacing:-.02em;margin-top:4px}
+.stepinfo{margin-top:40px;display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:stretch}
+.stepbox{padding:30px 34px;min-height:196px}
+.stepbox h4{font-size:24px;letter-spacing:-.02em}
+.stepbox p{color:var(--muted);margin-top:10px;max-width:48ch}
+.stepbox ul{margin-top:16px;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.stepbox li{font:500 12px var(--mono);padding:6px 11px;border-radius:999px;background:var(--primary-subtle);color:var(--primary)}
+.stepviz{padding:22px;display:grid;place-items:center;min-height:196px;background:linear-gradient(160deg,#F7FAFF,#EEF3FC)}
+.sv{display:none;width:100%;max-width:420px}
+.sv.on{display:block;animation:fadein .5s}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}}
+
+/* ---------- Slide 5 data marquee ---------- */
+.slide.col{flex-direction:column;justify-content:center;align-items:stretch}
+.marqs{margin:44px -7vw 0}
+.marq{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.marq+.marq{margin-top:16px}
+.marq .track{padding:6px 0 14px}
+.track{display:flex;gap:16px;width:max-content;animation:scrollx 46s linear infinite}
+.marq.rev .track{animation-direction:reverse;animation-duration:58s}
+.marq:hover .track{animation-play-state:paused}
+@keyframes scrollx{to{transform:translateX(-50%)}}
+.chip{display:flex;align-items:center;gap:14px;padding:14px 22px 14px 14px;background:#fff;border:1px solid var(--line);border-radius:18px;white-space:nowrap;box-shadow:var(--shadow);font-weight:600}
+.chip em{font-style:normal;display:block;font:500 11px var(--mono);color:var(--muted);letter-spacing:.04em;margin-top:2px}
+.chip .fi{width:42px;height:48px}
+.note{margin-top:26px;font-size:13.5px;color:var(--muted);display:flex;gap:10px;align-items:center}
+.note .icon{font-size:18px;color:var(--primary);flex:none}
+
+/* ---------- Slide 6 modules ---------- */
+#s6{background:#fff}
+.mods{margin-top:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.mod{padding:18px 20px 18px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#FAFCFF)}
+.mod .top{display:flex;justify-content:space-between;align-items:center}
+.mod .mi{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:var(--primary-subtle);color:var(--primary);transition:.3s}
+.mod:hover .mi{background:var(--primary);color:#fff;transform:rotate(-6deg) scale(1.06)}
+.mod h3{font-size:16.5px;letter-spacing:-.015em;margin-top:14px}
+.mod p{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.45}
+.mod .tag{display:inline-block;font:500 10.5px var(--mono);letter-spacing:.08em;color:var(--primary);background:var(--primary-subtle);padding:3px 8px;border-radius:6px}
+
+/* ---------- Slide 7 ask ---------- */
+.chat{padding:26px;display:grid;gap:16px;max-width:560px;justify-self:end;width:100%;position:relative}
+.bubble{padding:14px 18px;border-radius:18px;font-size:15px;max-width:88%}
+.bubble.q{justify-self:end;background:var(--primary);color:#fff;border-bottom-right-radius:6px}
+.bubble.a{background:#F1F5FC;border-bottom-left-radius:6px;max-width:100%}
+.bubble.a .who{display:flex;align-items:center;gap:8px;font:600 12px var(--mono);color:var(--primary);margin-bottom:10px;letter-spacing:.06em}
+.who img{width:20px;height:20px;border-radius:6px}
+.ans-row{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:14px;margin-top:8px}
+.ans-row .dot{width:10px;height:10px;border-radius:50%;flex:none}
+.ans-row small{margin-left:auto;color:var(--muted);font-size:12.5px;text-align:right}
+.cites{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.cite{font:500 11.5px var(--mono);padding:5px 10px;border-radius:8px;background:#fff;border:1px solid #CFDCF4;color:var(--primary);display:inline-flex;gap:6px;align-items:center}
+.typing{display:flex;gap:5px;padding:4px 0}
+.typing i{width:7px;height:7px;border-radius:50%;background:#9DB0D1;animation:bounce 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes bounce{40%{transform:translateY(-5px);background:var(--primary)}}
+.js .chat .bubble.a,.js .chat .bubble.q{opacity:0;transform:translateY(12px)}
+.js .slide.in .chat .bubble.q{animation:pop .5s .5s forwards}
+.js .slide.in .chat .bubble.a{animation:pop .6s 1.4s forwards}
+@keyframes pop{to{opacity:1;transform:none}}
+.facts{margin-top:30px;display:grid;gap:14px}
+.fact{display:flex;gap:14px;align-items:flex-start}
+.fact .ic{flex:none;width:34px;height:34px;border-radius:11px;background:var(--primary-subtle);color:var(--primary);display:grid;place-items:center;font-size:18px}
+.fact b{font-weight:600}.fact span{display:block;color:var(--muted);font-size:14px}
+
+/* ---------- Slide 8 trace ---------- */
+#s8{background:#fff}
+.trace{margin-top:48px;display:grid;grid-template-columns:1fr 60px 1fr 60px 1fr;align-items:stretch}
+.tc{padding:22px;border-radius:20px;position:relative}
+.tc .lab{font:500 11px var(--mono);letter-spacing:.12em;color:var(--primary);text-transform:uppercase}
+.tc h3{font-size:19px;margin:8px 0 14px;letter-spacing:-.02em}
+.tline{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px dashed var(--line);font-size:13.5px}
+.tline span:last-child{font:500 12.5px var(--mono);white-space:nowrap}
+.tline.hl{background:var(--primary-subtle);margin:0 -12px;padding:9px 12px;border-radius:10px;border-top-color:transparent;color:var(--primary);font-weight:600}
+.tconn{display:flex;align-items:center;justify-content:center}
+.tconn svg{width:100%;height:24px;overflow:visible}
+.tconn path{stroke:var(--primary);stroke-width:2;fill:none;stroke-dasharray:60;stroke-dashoffset:60}
+.tconn circle{fill:var(--primary)}
+.js .slide.in .tconn path{animation:draw 1s .9s forwards}
+.js .slide.in .tconn.c2 path{animation-delay:1.6s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.tc.src{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tc.src .lab{color:#8FB4FF}.tc.src .tline{border-color:rgba(255,255,255,.14)}
+.tc.src .tline.hl{background:rgba(143,180,255,.18);color:#fff}
+.rawtext{font:500 12px var(--mono);color:#B9C7E3;background:rgba(255,255,255,.07);padding:10px 12px;border-radius:10px;margin-top:6px;word-break:break-word}
+.trace-cap{margin-top:34px;display:flex;gap:26px;flex-wrap:wrap;color:var(--muted);font-size:14.5px}
+.trace-cap span{display:flex;gap:8px;align-items:center}.trace-cap .icon{color:var(--green);font-size:18px}
+
+/* ---------- Slide 9 review ---------- */
+.rev-wrap{display:grid;gap:22px;justify-items:center;perspective:1200px}
+.tilt{transform-style:preserve-3d;transition:transform .2s ease-out;width:100%;max-width:520px}
+.rvc{padding:26px;position:relative}
+.rvc .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.rvc .amt{font:600 26px var(--mono);letter-spacing:-.02em}
+.rvc .meta{font-size:13px;color:var(--muted);margin-top:3px}
+.rvc .sug{margin-top:20px;border:1px solid var(--line);border-radius:16px;padding:16px;background:#FAFCFF}
+.rvc .sug .k{font:500 11px var(--mono);color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.acc{position:relative;height:30px;margin-top:8px;font:600 18px var(--mono)}
+.acc span{position:absolute;inset:0;display:flex;align-items:center;gap:10px}
+.acc .a1{animation:acc1 9s infinite}.acc .a2{animation:acc2 9s infinite}
+@keyframes acc1{0%,38%{opacity:1;transform:none}44%,94%{opacity:0;transform:translateY(-10px)}100%{opacity:1;transform:none}}
+@keyframes acc2{0%,38%{opacity:0;transform:translateY(10px)}44%,94%{opacity:1;transform:none}100%{opacity:0;transform:translateY(10px)}}
+.badge{font:600 11px var(--mono);padding:4px 9px;border-radius:999px;letter-spacing:.04em;white-space:nowrap}
+.badge.lo{background:var(--amber-bg);color:var(--amber)}
+.badge.ok{background:var(--green-bg);color:var(--green)}
+.meter{height:6px;border-radius:6px;background:var(--line);margin-top:14px;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:6px;background:var(--amber);animation:meter 9s infinite}
+@keyframes meter{0%,38%{width:62%;background:#E8A33D}44%,94%{width:100%;background:#1E8E5A}100%{width:62%;background:#E8A33D}}
+.rvc .row{display:flex;gap:10px;margin-top:18px}
+.rvc .row div{flex:1;text-align:center;padding:11px;border-radius:12px;font:600 13.5px Inter,system-ui,sans-serif;border:1px solid var(--line);background:#fff}
+.rvc .row div.go{background:var(--primary);color:#fff;border-color:var(--primary);animation:tap 9s infinite}
+@keyframes tap{0%,38%{transform:none}41%{transform:scale(.94)}44%,100%{transform:none}}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:520px}
+.role{padding:14px;border-radius:16px;text-align:center;background:#fff;border:1px solid var(--line);font-size:13px;color:var(--muted)}
+.role b{display:block;color:var(--ink);font-size:14px;margin-top:8px}
+.role .icon{font-size:24px;color:var(--primary);margin:0 auto}
+
+/* ---------- Slide 10 close ---------- */
+#s10{background:#fff}
+.months{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:22px}
+.mo{aspect-ratio:1/.9;border-radius:16px;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font:600 13px var(--mono);color:var(--muted);background:#fff;position:relative;transition:.4s}
+.mo .icon{font-size:20px}
+.mo.lk{background:var(--primary-subtle);border-color:#BFD1F3;color:var(--primary)}
+.mo.cur{background:var(--amber-bg);border-color:#F2D9A3;color:var(--amber);animation:glow 2.4s infinite}
+@keyframes glow{50%{box-shadow:0 0 0 6px rgba(232,163,61,.18)}}
+.checks{display:grid;gap:10px}
+.chk{display:flex;gap:12px;align-items:center;padding:13px 16px;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:14.5px}
+.chk .cb{flex:none;width:24px;height:24px;border-radius:8px;background:var(--green-bg);color:var(--green);display:grid;place-items:center;font-size:15px}
+.chk.warn .cb{background:var(--amber-bg);color:var(--amber)}
+.chk small{margin-left:auto;font:500 11px var(--mono);color:var(--muted);text-align:right}
+.js .chk{opacity:0;transform:translateX(18px)}
+.js .slide.in .chk{animation:pop .5s forwards;animation-delay:calc(var(--i)*160ms + 500ms)}
+.signs{display:flex;align-items:center;gap:14px;margin-top:20px;padding:16px 18px;border-radius:16px;background:var(--ink);color:#fff;font-size:14px}
+.avs{display:flex}.avs i{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);margin-left:-8px;display:grid;place-items:center;font:600 11px var(--mono);font-style:normal}
+.avs i:first-child{margin-left:0}
+
+/* ---------- Slide 11 entities ---------- */
+.ent{width:100%;max-width:640px;justify-self:end}
+.twocol-list{margin-top:30px;display:grid;gap:14px}
+
+/* ---------- Slide 12 CTA ---------- */
+#s12{background:linear-gradient(180deg,#F7FAFF,#EAF1FD)}
+.stats{margin-top:44px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:760px}
+.stat{padding:22px 24px}
+.stat .num{font-size:clamp(40px,4.6vw,64px);font-weight:700;letter-spacing:-.04em;line-height:1}
+.stat span{display:block;color:var(--muted);font-size:14px;margin-top:8px}
+.qs{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px}
+.qs b{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-right:6px}
+.qs span{padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-weight:500}
+.qs i{color:#9DB0D1;font-style:normal}
+.cta-card{padding:clamp(28px,4vw,52px);text-align:left;position:relative;overflow:hidden}
+.foot{margin-top:56px;font-size:12.5px;color:var(--muted);display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.foot img{width:22px;height:22px;border-radius:6px}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1020px){
+  html{scroll-snap-type:y proximity}
+  .grid2{grid-template-columns:1fr}
+  .hero-art,.mess,.chat,.ent{justify-self:center}
+  .mods{grid-template-columns:repeat(2,1fr)}
+  .a-found,.a-out{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+  .step .orb{width:58px;height:58px;font-size:22px;box-shadow:0 0 0 5px #fff}
+  .pipe-track{top:29px}.step h3{font-size:13px}
+  .stepinfo{grid-template-columns:1fr}
+  .trace{grid-template-columns:1fr;gap:10px}
+  .tconn{height:34px;transform:rotate(90deg);width:60px;margin:0 auto}
+  .months{grid-template-columns:repeat(4,1fr)}
+  .rail,.hint{display:none}
+  .slide{padding:90px 6vw 70px}
+  .brand{left:6vw}.counter{left:6vw}
+  .stats{grid-template-columns:1fr 1fr 1fr}
+}
+@media (max-width:560px){
+  .mods{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+  .roles{grid-template-columns:1fr}
+  .brand small{display:none}
+  .arch{grid-template-columns:1fr}.vband{writing-mode:horizontal-tb;transform:none;padding:12px}
+  .step .n{display:none}
+}
+
+/* ---------- Motion + print ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .js .w,.js .rv,.js .chat .bubble,.js .chk{opacity:1!important;filter:none!important;transform:none!important}
+  .tconn path{stroke-dashoffset:0!important}
+  .acc .a1{opacity:1!important}.acc .a2{opacity:0!important}
+}
+@media print{
+  @page{size:A4 landscape;margin:0}
+  html{scroll-snap-type:none}
+  .rail,.hint,.counter,.topbar,.brand,canvas.bg{display:none!important}
+  .slide{min-height:0;height:100vh;page-break-after:always;break-after:page;padding:40px 48px}
+  .js .w,.js .rv,.js .chat .bubble,.js .chk{opacity:1!important;filter:none!important;transform:none!important}
+  *{animation:none!important;transition:none!important}
+  .tconn path{stroke-dashoffset:0!important}
+  .acc .a1{opacity:1!important}.acc .a2{opacity:0!important}
+  .marq{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ SVG icon sprite ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-import" viewBox="0 0 24 24"><path d="M4 15v4a1 1 0 001 1h14a1 1 0 001-1v-4M12 4v11M8 11l4 4 4-4"/></symbol>
+    <symbol id="i-review" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.3l2.4 2.4 4.6-5"/></symbol>
+    <symbol id="i-ledger" viewBox="0 0 24 24"><path d="M5 4.5A1.5 1.5 0 016.5 3H18v15H7a2 2 0 00-2 2V4.5z"/><path d="M5 20a2 2 0 002 2h11M9 7h5M9 11h5"/></symbol>
+    <symbol id="i-tb" viewBox="0 0 24 24"><path d="M12 4v15M7 20h10M4 7.5h16"/><path d="M5 8l-2.6 6a2.6 2.6 0 005.2 0L5 8zM19 8l-2.6 6a2.6 2.6 0 005.2 0L19 8z"/></symbol>
+    <symbol id="i-report" viewBox="0 0 24 24"><path d="M6 3h8.5L19 7.5V20a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M14 3v5h5M9 17v-3M12 17v-6M15 17v-4"/></symbol>
+    <symbol id="i-ar" viewBox="0 0 24 24"><path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5"/></symbol>
+    <symbol id="i-stock" viewBox="0 0 24 24"><path d="M3 7.8L12 3l9 4.8v8.4L12 21l-9-4.8V7.8z"/><path d="M3 7.8l9 4.8 9-4.8M12 12.6V21"/></symbol>
+    <symbol id="i-asset" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V4.5A1.5 1.5 0 0110.5 3h3A1.5 1.5 0 0115 4.5V7M3 13h18M11 13v2h2v-2"/></symbol>
+    <symbol id="i-lease" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3M14 9l2 2"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.2" cy="9" r="2.5"/><path d="M16.5 14.2c2.6.4 4.5 2.7 4.5 5.8"/></symbol>
+    <symbol id="i-tax" viewBox="0 0 24 24"><path d="M5 19L19 5"/><circle cx="7.5" cy="7.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></symbol>
+    <symbol id="i-adjust" viewBox="0 0 24 24"><path d="M4 20l1-4.2L16.4 4.4a1.6 1.6 0 012.2 0l1 1a1.6 1.6 0 010 2.2L8.2 19 4 20z"/><path d="M14.5 6.3l3.2 3.2"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 018 0v3"/></symbol>
+    <symbol id="i-unlock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 017.6-1.7"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 015.5 4h13A1.5 1.5 0 0120 5.5v9a1.5 1.5 0 01-1.5 1.5H10l-4.5 4v-4h0A1.5 1.5 0 014 14.5v-9z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4l9 16H3L12 4zM12 10v4M12 17.2v.1"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-trace" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 6h7a3 3 0 010 6h-4a3 3 0 000 6h7"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5M3 17.5L12 22l9-4.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.3 8-8 9-4.7-1-8-4.5-8-9V6l8-3z"/><path d="M8.7 12l2.3 2.3 4.3-4.6"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2.2"/><path d="M8.5 7h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8.5L19 7.5V20a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><path d="M4 21V5a1 1 0 011-1h9a1 1 0 011 1v16M15 10h4a1 1 0 011 1v10M3 21h18M8 8h3M8 12h3M8 16h3"/></symbol>
+  </defs>
+</svg>
+
+<div class="topbar"><b id="bar"></b></div>
+<a class="brand" href="#s1" aria-label="Buku — ke awal"><img src="assets/buku-mark.svg" alt=""><span>Buku</span><small>by Right-Jet</small></a>
+<nav class="rail" id="rail" aria-label="Navigasi slide"></nav>
+<div class="counter" id="counter" aria-hidden="true">01 / 12</div>
+<div class="hint" aria-hidden="true"><kbd>←</kbd><kbd>→</kbd> navigasi &nbsp;<kbd>F</kbd> layar penuh</div>
+
+<main>
+
+<!-- ============ 1 · HERO ============ -->
+<section class="slide" id="s1" data-title="Buku">
+  <canvas class="bg" id="aurora" aria-hidden="true"></canvas>
+  <div class="wrap grid2">
+    <div>
+      <div class="eyebrow rv"><i></i>Tutup buku bulanan untuk kantor akuntan</div>
+      <h1 data-split>Dari rekening koran ke laporan keuangan — lalu <span class="grad">tutup buku</span> dengan percaya diri.</h1>
+      <p class="lead rv" style="--d:300">Buku menggabungkan buku besar double-entry, bukti dokumen, dan konteks perusahaan, agar kantor akuntan dapat menyusun pembukuan, menjawab pertanyaan keuangan, dan menutup periode dengan yakin.</p>
+      <div class="btns rv" style="--d:450">
+        <span class="magnet"><a class="btn pri" data-cta href="#s12">Jadwalkan demo <svg class="icon"><use href="#i-arrow"/></svg></a></span>
+        <a class="btn" href="#s3">Lihat cara kerja</a>
+      </div>
+    </div>
+
+    <!-- Hero illustration: statement → ledger → report -->
+    <svg class="hero-art rv" style="--d:300" viewBox="0 0 620 580" role="img" aria-label="Ilustrasi: rekening koran mengalir ke buku besar, lalu menjadi laporan keuangan yang terkunci">
+      <defs>
+        <linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1D5BD8"/><stop offset="1" stop-color="#5E8FFF"/></linearGradient>
+        <filter id="hsh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#1D5BD8" flood-opacity=".16"/></filter>
+      </defs>
+      <!-- flows -->
+      <path class="flow" d="M250 150 C 340 150, 330 230, 390 250" fill="none" stroke="#7FA3EC" stroke-width="2.5" stroke-linecap="round"/>
+      <path class="flow" d="M450 392 C 450 440, 380 430, 330 450" fill="none" stroke="#7FA3EC" stroke-width="2.5" stroke-linecap="round"/>
+      <circle class="pulse" cx="390" cy="250" r="6" fill="#1D5BD8"/><circle class="pulse" cx="330" cy="450" r="6" fill="#1D5BD8"/>
+
+      <!-- A: rekening koran -->
+      <g class="float" filter="url(#hsh)">
+        <rect x="14" y="40" width="250" height="230" rx="20" fill="#fff" stroke="#E1E8F3"/>
+        <rect x="34" y="62" width="34" height="34" rx="10" fill="#EDF2FD"/><use href="#i-doc" x="40" y="68" width="22" height="22" style="color:#1D5BD8;fill:none;stroke:#1D5BD8;stroke-width:1.7"/>
+        <text x="78" y="76" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="15" fill="#0B1B32">Rekening koran</text>
+        <text x="78" y="93" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10.5" fill="#53627C">Agustus · 128 baris</text>
+        <g font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="11">
+          <g transform="translate(34 124)"><rect width="212" height="26" rx="8" fill="#F5F7FA"/><text x="10" y="17" fill="#53627C">TRF PELANGGAN A</text><text x="202" y="17" text-anchor="end" fill="#1E8E5A">+48,2 jt</text></g>
+          <g transform="translate(34 156)"><rect width="212" height="26" rx="8" fill="#F5F7FA"/><text x="10" y="17" fill="#53627C">BAYAR SUPPLIER B</text><text x="202" y="17" text-anchor="end" fill="#C2410C">−12,6 jt</text></g>
+          <g transform="translate(34 188)"><rect width="212" height="26" rx="8" fill="#F5F7FA"/><text x="10" y="17" fill="#53627C">BIAYA ADM BANK</text><text x="202" y="17" text-anchor="end" fill="#C2410C">−0,03 jt</text></g>
+        </g>
+        <rect x="34" y="228" width="140" height="24" rx="12" fill="#E5F6EE"/><text x="104" y="244" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10.5" font-weight="500" fill="#1E8E5A">✓ saldo nyambung</text>
+      </g>
+
+      <!-- B: buku besar -->
+      <g class="float b" filter="url(#hsh)">
+        <rect x="340" y="170" width="260" height="228" rx="20" fill="url(#hg1)"/>
+        <text x="362" y="205" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="15" fill="#fff">Buku Besar</text>
+        <text x="362" y="222" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10.5" fill="#CFE0FF">double-entry · tak dapat diubah</text>
+        <g font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10.5" fill="#fff">
+          <text x="362" y="256" opacity=".7">AKUN</text><text x="510" y="256" opacity=".7" text-anchor="end">DEBET</text><text x="580" y="256" opacity=".7" text-anchor="end">KREDIT</text>
+          <line x1="362" x2="580" y1="264" y2="264" stroke="#fff" stroke-opacity=".3"/>
+          <text x="362" y="285">1110 Kas</text><text x="510" y="285" text-anchor="end">48.200</text>
+          <text x="362" y="308">4100 Penjualan</text><text x="580" y="308" text-anchor="end">48.200</text>
+          <text x="362" y="331">5100 Pembelian</text><text x="510" y="331" text-anchor="end">12.600</text>
+          <text x="362" y="354">1110 Kas</text><text x="580" y="354" text-anchor="end">12.600</text>
+        </g>
+        <rect x="362" y="366" width="130" height="22" rx="11" fill="#fff" fill-opacity=".2"/><text x="427" y="381" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10" fill="#fff">Debet = Kredit ✓</text>
+      </g>
+
+      <!-- C: laporan -->
+      <g class="float c" filter="url(#hsh)">
+        <rect x="34" y="372" width="296" height="188" rx="20" fill="#fff" stroke="#E1E8F3"/>
+        <text x="56" y="404" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="15" fill="#0B1B32">Laba Rugi</text>
+        <text x="56" y="421" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10.5" fill="#53627C">Agustus · YTD</text>
+        <g>
+          <rect x="60" y="480" width="28" height="56" rx="6" fill="#DCE7FB"/>
+          <rect x="100" y="462" width="28" height="74" rx="6" fill="#B7CBF3"/>
+          <rect x="140" y="446" width="28" height="90" rx="6" fill="#8FB0F0"/>
+          <rect x="180" y="432" width="28" height="104" rx="6" fill="#1D5BD8"/>
+        </g>
+        <rect x="226" y="396" width="86" height="26" rx="13" fill="#EDF2FD"/>
+        <use href="#i-lock" x="234" y="401" width="16" height="16" style="fill:none;stroke:#1D5BD8;stroke-width:2"/>
+        <text x="256" y="414" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="11" font-weight="500" fill="#1D5BD8">Final</text>
+        <text x="228" y="470" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10.5" fill="#53627C">Laba bersih</text>
+        <text x="228" y="492" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="19" font-weight="500" fill="#0B1B32">35,6 jt</text>
+      </g>
+
+      <!-- sparkles -->
+      <g fill="#7B6CF0"><path class="pulse" d="M560 70l4 11 11 4-11 4-4 11-4-11-11-4 11-4z"/></g>
+      <g fill="#1D5BD8" opacity=".6"><path class="pulse" style="animation-delay:-1s" d="M300 36l2.6 7 7 2.6-7 2.6-2.6 7-2.6-7-7-2.6 7-2.6z"/></g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ 2 · MASALAH ============ -->
+<section class="slide" id="s2" data-title="Masalah">
+  <canvas class="bg" id="dots" aria-hidden="true"></canvas>
+  <div class="wrap grid2">
+    <div>
+      <div class="eyebrow rv"><i></i>Masalahnya</div>
+      <h2 data-split>Setiap bulan, pekerjaan yang sama <span class="grad">berulang</span> di Excel.</h2>
+      <p class="lead rv" style="--d:250">Mengubah rekening koran menjadi laporan keuangan secara manual memakan berhari-hari per klien per bulan — dan hasilnya sulit diperiksa kembali.</p>
+      <ul class="pains">
+        <li class="rv" style="--d:350"><span class="ic"><svg class="icon"><use href="#i-clock"/></svg></span><div><b>Input ulang transaksi</b><span>Rekening koran disalin dan diklasifikasi baris demi baris.</span></div></li>
+        <li class="rv" style="--d:450"><span class="ic"><svg class="icon"><use href="#i-layers"/></svg></span><div><b>Pengetahuan tersebar</b><span>Aturan klasifikasi hidup di banyak file dan di kepala orang.</span></div></li>
+        <li class="rv" style="--d:550"><span class="ic"><svg class="icon"><use href="#i-warn"/></svg></span><div><b>Angka sulit dilacak</b><span>Dari laporan, tak jelas baris bank mana yang membentuknya.</span></div></li>
+      </ul>
+    </div>
+
+    <!-- messy spreadsheets illustration -->
+    <svg class="mess rv" style="--d:300" viewBox="0 0 620 560" role="img" aria-label="Ilustrasi: tumpukan spreadsheet yang berantakan dengan banyak revisi">
+      <defs><filter id="msh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#0B1B32" flood-opacity=".13"/></filter></defs>
+      <g class="sheet" filter="url(#msh)" transform="rotate(-6 150 200)"><rect x="30" y="50" width="270" height="200" rx="14" fill="#fff" stroke="#E1E8F3"/><rect x="30" y="50" width="270" height="28" rx="14" fill="#E5F6EE"/><rect x="30" y="64" width="270" height="14" fill="#E5F6EE"/><text x="46" y="69" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="11" fill="#1E8E5A">klien_A_agustus_v3.xlsx</text>
+        <g stroke="#E1E8F3"><path d="M30 104h270M30 130h270M30 156h270M30 182h270M30 208h270M120 78v172M210 78v172"/></g>
+        <g font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10" fill="#53627C"><text x="40" y="96">TRF 0812</text><text x="130" y="96">48.200.000</text><text x="220" y="96" fill="#C2410C">???</text><text x="40" y="148">BIAYA</text><text x="130" y="148" fill="#C2410C">#REF!</text><text x="40" y="200">PAJAK</text><text x="130" y="200">1.320.000</text></g></g>
+      <g class="sheet" filter="url(#msh)" transform="rotate(5 450 190)"><rect x="320" y="30" width="270" height="200" rx="14" fill="#fff" stroke="#E1E8F3"/><rect x="320" y="30" width="270" height="28" rx="14" fill="#E5F6EE"/><rect x="320" y="44" width="270" height="14" fill="#E5F6EE"/><text x="336" y="49" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="11" fill="#1E8E5A">FINAL_revisi_2_baru.xlsx</text>
+        <g stroke="#E1E8F3"><path d="M320 84h270M320 110h270M320 136h270M320 162h270M320 188h270M410 58v172M500 58v172"/></g>
+        <g font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10" fill="#53627C"><text x="330" y="102">Kas</text><text x="420" y="102">12.600.000</text><text x="510" y="102" fill="#B7791F">cek lagi</text><text x="330" y="154">Piutang</text><text x="420" y="154" fill="#C2410C">selisih 2,4 jt</text></g></g>
+      <g class="sheet" filter="url(#msh)" transform="rotate(-3 200 420)"><rect x="60" y="300" width="270" height="200" rx="14" fill="#fff" stroke="#E1E8F3"/><rect x="60" y="300" width="270" height="28" rx="14" fill="#E5F6EE"/><rect x="60" y="314" width="270" height="14" fill="#E5F6EE"/><text x="76" y="319" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="11" fill="#1E8E5A">neraca_FIX_jangan_diubah.xlsx</text>
+        <g stroke="#E1E8F3"><path d="M60 354h270M60 380h270M60 406h270M60 432h270M60 458h270M150 328v172M240 328v172"/></g>
+        <g font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10" fill="#53627C"><text x="70" y="372">Aset</text><text x="160" y="372">135.600.000</text><text x="70" y="424">Ekuitas</text><text x="160" y="424" fill="#C2410C">tidak balance</text></g></g>
+      <g class="sheet" filter="url(#msh)" transform="rotate(7 460 410)"><rect x="350" y="320" width="230" height="170" rx="14" fill="#FFF6E0" stroke="#F2D9A3"/><text x="370" y="352" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="14" fill="#B7791F">Catatan</text>
+        <g font-family="Inter,system-ui,sans-serif" font-size="13" fill="#7A5517"><text x="370" y="382">☐ cek mutasi Juli</text><text x="370" y="408">☐ tanya klien: transfer 8/14</text><text x="370" y="434">☐ jurnal penyesuaian?</text><text x="370" y="460">☐ tutup buku… kapan?</text></g></g>
+      <g><circle cx="305" cy="300" r="34" fill="#fff" stroke="#E1E8F3" stroke-width="1.5" filter="url(#msh)"/><circle cx="305" cy="300" r="26" fill="none" stroke="#B7791F" stroke-width="2.5"/><g class="tick" style="transform-origin:305px 300px"><path d="M305 300V282" stroke="#B7791F" stroke-width="3" stroke-linecap="round"/></g><path d="M305 300l10 6" stroke="#B7791F" stroke-width="3" stroke-linecap="round"/></g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ 3 · SOLUSI ============ -->
+<section class="slide" id="s3" data-title="Cara kerja">
+  <div class="wrap">
+    <div class="eyebrow rv"><i></i>Cara kerja Buku</div>
+    <h2 data-split>Satu fondasi. <span class="grad">Tiga cara</span> bekerja.</h2>
+    <p class="lead rv" style="--d:250">Tanyakan, susun dan tinjau pembukuan, atau periksa laporan dan kesiapan tutup buku — semuanya di atas bukti dokumen, buku besar, dan konteks yang sama.</p>
+
+    <div class="arch">
+      <div class="arch-main">
+        <div class="a-row a-top rv" style="--d:300"><div class="node top"><div><b>Informasi klien</b><span>rekening koran · buku besar &amp; neraca saldo lama · laporan keuangan · profil perusahaan · dokumen pendukung</span></div></div></div>
+        <div class="arrowdown rv" style="--d:340"><svg class="icon" style="font-size:22px"><use href="#i-arrow" transform="rotate(90 12 12)"/></svg></div>
+        <div class="a-row a-found">
+          <div class="node rv" style="--d:380"><span class="ni"><svg class="icon"><use href="#i-doc"/></svg></span><div><b>Bukti dokumen</b><span>Tersimpan, berversi, dan dapat dicari beserta rujukan sumbernya.</span></div></div>
+          <div class="node core rv" style="--d:440"><span class="ni"><svg class="icon"><use href="#i-ledger"/></svg></span><div><b>Buku Besar double-entry</b><span>Inti akuntansi. Jurnal tak dapat diubah, laporan dihitung dari entri yang diposting, kunci periode.</span></div></div>
+          <div class="node rv" style="--d:500"><span class="ni"><svg class="icon"><use href="#i-building"/></svg></span><div><b>Konteks perusahaan</b><span>Profil dan entitas yang diusulkan, lalu dikonfirmasi akuntan.</span></div></div>
+        </div>
+        <div class="a-ai rv" style="--d:560"><svg class="icon" style="font-size:16px"><use href="#i-sparkle"/></svg>KECERDASAN BUKU — mengusulkan klasifikasi, pemetaan, dan penjelasan</div>
+        <div class="a-row a-out">
+          <div class="node rv" style="--d:620"><span class="ni"><svg class="icon"><use href="#i-chat"/></svg></span><div><b>Tanya Buku</b><span>Jawaban bersumber untuk pertanyaan keuangan.</span></div></div>
+          <div class="node rv" style="--d:680"><span class="ni"><svg class="icon"><use href="#i-adjust"/></svg></span><div><b>Ruang kerja akuntansi</b><span>Impor, review, dan jurnal penyesuaian.</span></div></div>
+          <div class="node rv" style="--d:740"><span class="ni"><svg class="icon"><use href="#i-report"/></svg></span><div><b>Laporan &amp; tutup buku</b><span>Laporan keuangan dan kontrol penutupan.</span></div></div>
+        </div>
+      </div>
+      <div class="vband rv" style="--d:800">Kontrol akuntansi · Review manusia · Jejak sumber</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 · ALUR ============ -->
+<section class="slide" id="s4" data-title="Alur kerja">
+  <div class="wrap">
+    <div class="eyebrow rv"><i></i>Alur kerja</div>
+    <h2 data-split>Lima langkah dari <span class="grad">unggah</span> sampai <span class="grad">kunci</span>.</h2>
+
+    <div class="pipe rv" style="--d:250">
+      <div class="pipe-track"><div class="pipe-fill" id="pfill"></div></div>
+      <div class="steps" id="steps">
+        <button class="step on" data-i="0"><div class="orb"><svg class="icon"><use href="#i-import"/></svg></div><div class="n">01</div><h3>Impor</h3></button>
+        <button class="step" data-i="1"><div class="orb"><svg class="icon"><use href="#i-sparkle"/></svg></div><div class="n">02</div><h3>Klasifikasi</h3></button>
+        <button class="step" data-i="2"><div class="orb"><svg class="icon"><use href="#i-review"/></svg></div><div class="n">03</div><h3>Review</h3></button>
+        <button class="step" data-i="3"><div class="orb"><svg class="icon"><use href="#i-report"/></svg></div><div class="n">04</div><h3>Laporan</h3></button>
+        <button class="step" data-i="4"><div class="orb"><svg class="icon"><use href="#i-lock"/></svg></div><div class="n">05</div><h3>Tutup buku</h3></button>
+      </div>
+    </div>
+
+    <div class="stepinfo rv" style="--d:400">
+      <div class="card stepbox" id="stepbox" aria-live="polite"></div>
+      <div class="card stepviz">
+        <!-- 0 import -->
+        <svg class="sv on" viewBox="0 0 420 170" aria-hidden="true"><rect x="20" y="20" width="150" height="130" rx="14" fill="#fff" stroke="#DCE5F4" stroke-dasharray="5 6"/><use href="#i-import" x="75" y="42" width="40" height="40" style="fill:none;stroke:#1D5BD8;stroke-width:1.6"/><text x="95" y="112" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="12" fill="#53627C">Letakkan file</text><text x="95" y="130" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10" fill="#8CA0C4">PDF · CSV · XLSX</text>
+          <path class="flow" d="M180 85h60" stroke="#7FA3EC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <g font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="11"><rect x="250" y="22" width="150" height="34" rx="10" fill="#E5F6EE"/><text x="264" y="43" fill="#1E8E5A">✓ 128 baris dibaca</text><rect x="250" y="64" width="150" height="34" rx="10" fill="#E5F6EE"/><text x="264" y="85" fill="#1E8E5A">✓ saldo nyambung</text><rect x="250" y="106" width="150" height="34" rx="10" fill="#EDF2FD"/><text x="264" y="127" fill="#1D5BD8">⇄ duplikat dilewati</text></g></svg>
+        <!-- 1 classify -->
+        <svg class="sv" viewBox="0 0 420 170" aria-hidden="true"><g font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="11"><rect x="10" y="12" width="400" height="30" rx="10" fill="#EDF2FD"/><text x="24" y="31" fill="#1D5BD8">1 Pasangan transfer antar-akun</text><text x="396" y="31" text-anchor="end" fill="#1D5BD8">otomatis</text>
+          <rect x="10" y="50" width="400" height="30" rx="10" fill="#EDF2FD"/><text x="24" y="69" fill="#1D5BD8">2 Aturan &amp; memori klien</text><text x="396" y="69" text-anchor="end" fill="#1D5BD8">otomatis</text>
+          <rect x="10" y="88" width="400" height="30" rx="10" fill="#EDF2FD"/><text x="24" y="107" fill="#1D5BD8">3 Pembiayaan &amp; teks bank</text><text x="396" y="107" text-anchor="end" fill="#1D5BD8">otomatis</text>
+          <rect x="10" y="126" width="400" height="30" rx="10" fill="#F1ECFF"/><text x="24" y="145" fill="#5A4BC9">4 Usulan AI — untuk sisanya saja</text><text x="396" y="145" text-anchor="end" fill="#5A4BC9">→ review</text></g></svg>
+        <!-- 2 review -->
+        <svg class="sv" viewBox="0 0 420 170" aria-hidden="true"><rect x="40" y="12" width="340" height="146" rx="16" fill="#fff" stroke="#DCE5F4"/><text x="60" y="42" font-family="Inter,system-ui,sans-serif" font-weight="600" font-size="14" fill="#0B1B32">Pembelian mesin produksi</text><text x="360" y="42" text-anchor="end" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="14" font-weight="500" fill="#0B1B32">185 jt</text>
+          <rect x="60" y="58" width="300" height="36" rx="10" fill="#FFF6E0"/><text x="74" y="81" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#B7791F">5100 Pembelian · 62% keyakinan rendah</text>
+          <rect x="60" y="108" width="140" height="34" rx="10" fill="#fff" stroke="#DCE5F4"/><text x="130" y="130" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="600" font-size="12.5" fill="#0B1B32">Ubah akun</text><rect x="212" y="108" width="148" height="34" rx="10" fill="#1D5BD8"/><text x="286" y="130" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="600" font-size="12.5" fill="#fff">Terima ↵</text></svg>
+        <!-- 3 reports -->
+        <svg class="sv" viewBox="0 0 420 170" aria-hidden="true"><g font-family="Inter,system-ui,sans-serif" font-weight="600" font-size="12"><rect x="10" y="16" width="120" height="70" rx="12" fill="#EDF2FD"/><text x="24" y="40" fill="#1D5BD8">Laba Rugi</text><rect x="150" y="16" width="120" height="70" rx="12" fill="#EDF2FD"/><text x="164" y="40" fill="#1D5BD8">Neraca</text><rect x="290" y="16" width="120" height="70" rx="12" fill="#EDF2FD"/><text x="304" y="40" fill="#1D5BD8">Perub. Ekuitas</text><rect x="80" y="96" width="120" height="62" rx="12" fill="#EDF2FD"/><text x="94" y="120" fill="#1D5BD8">Arus Kas</text><rect x="220" y="96" width="120" height="62" rx="12" fill="#EDF2FD"/><text x="234" y="120" fill="#1D5BD8">CALK</text></g>
+          <g fill="#8FB0F0"><rect x="24" y="62" width="14" height="16" rx="3"/><rect x="44" y="52" width="14" height="26" rx="3"/><rect x="64" y="44" width="14" height="34" rx="3"/><rect x="164" y="56" width="40" height="8" rx="3"/><rect x="164" y="70" width="64" height="8" rx="3"/><rect x="304" y="56" width="60" height="8" rx="3"/><rect x="304" y="70" width="40" height="8" rx="3"/></g></svg>
+        <!-- 4 close -->
+        <svg class="sv" viewBox="0 0 420 170" aria-hidden="true"><g font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="12"><rect x="20" y="16" width="200" height="30" rx="10" fill="#E5F6EE"/><text x="34" y="36" fill="#1E8E5A">✓ Neraca saldo seimbang</text><rect x="20" y="54" width="200" height="30" rx="10" fill="#E5F6EE"/><text x="34" y="74" fill="#1E8E5A">✓ Rekonsiliasi bank</text><rect x="20" y="92" width="200" height="30" rx="10" fill="#E5F6EE"/><text x="34" y="112" fill="#1E8E5A">✓ Catatan &amp; persetujuan</text></g>
+          <rect x="250" y="30" width="150" height="110" rx="18" fill="#1D5BD8"/><use href="#i-lock" x="298" y="48" width="54" height="54" style="fill:none;stroke:#fff;stroke-width:1.5"/><text x="325" y="124" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="12" fill="#fff">Agustus dikunci</text></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 · DATA ============ -->
+<section class="slide col" id="s5" data-title="Sumber data">
+  <div class="wrap">
+    <div class="eyebrow rv"><i></i>Sumber data</div>
+    <h2 data-split>Bawa apa yang sudah <span class="grad">Anda punya</span>.</h2>
+    <p class="lead rv" style="--d:250">Tidak ada integrasi bank yang perlu ditunggu. Pernyataan bank dan berkas pembukuan yang sudah dipegang akuntan menjadi pintu masuk — dengan pemeriksaan di setiap langkah.</p>
+  </div>
+  <div class="marqs rv" style="--d:400">
+    <div class="marq" aria-hidden="true"><div class="track" id="t1"></div></div>
+    <div class="marq rev" aria-hidden="true"><div class="track" id="t2"></div></div>
+  </div>
+  <div class="wrap">
+    <div class="note"><svg class="icon"><use href="#i-shield"/></svg>Dukungan bergantung pada struktur dokumen: PDF berbasis teks, XLSX, XLS, CSV, Google Docs/Sheets, TXT, dan Markdown. Dokumen hasil pindai memerlukan ekspor teks; tata letak yang ambigu tetap tersimpan sebagai bukti, bukan ditebak.</div>
+  </div>
+</section>
+
+<!-- ============ 6 · MODUL ============ -->
+<section class="slide" id="s6" data-title="Modul">
+  <div class="wrap">
+    <div class="eyebrow rv"><i></i>Modul akuntansi</div>
+    <h2 data-split>Satu ruang kerja, dari kas sampai <span class="grad">pajak badan</span>.</h2>
+    <div class="mods" id="mods"></div>
+  </div>
+</section>
+
+<!-- ============ 7 · TANYA BUKU ============ -->
+<section class="slide" id="s7" data-title="Tanya Buku">
+  <div class="wrap grid2">
+    <div>
+      <div class="eyebrow rv"><i></i>Tanya Buku</div>
+      <h2 data-split>Tanyakan pada <span class="grad">pembukuan</span> Anda.</h2>
+      <p class="lead rv" style="--d:250">Pertanyaan portofolio dijawab dengan angka yang dihitung alat deterministik dari buku besar — lengkap dengan sumbernya.</p>
+      <div class="facts">
+        <div class="fact rv" style="--d:350"><span class="ic"><svg class="icon"><use href="#i-calc"/></svg></span><div><b>Dihitung, bukan ditebak</b><span>Laba, saldo kas, dan kesiapan tutup buku berasal dari entri yang diposting.</span></div></div>
+        <div class="fact rv" style="--d:450"><span class="ic"><svg class="icon"><use href="#i-trace"/></svg></span><div><b>Bersumber &amp; berkonteks</b><span>Jawaban menyimpan cakupan dan periode saat ditanyakan, dengan tautan ke sumbernya.</span></div></div>
+        <div class="fact rv" style="--d:550"><span class="ic"><svg class="icon"><use href="#i-shield"/></svg></span><div><b>Jujur soal batas</b><span>Pertanyaan yang belum didukung dijawab terus terang. Hanya baca — tidak mengubah buku.</span></div></div>
+      </div>
+    </div>
+    <div class="card chat rv" style="--d:300">
+      <div class="bubble q">Klien mana yang belum siap tutup buku?</div>
+      <div class="bubble a">
+        <div class="who"><img src="assets/buku-mark.svg" alt="">TANYA BUKU · AGUSTUS</div>
+        2 dari 3 klien belum siap ditutup.
+        <div class="ans-row"><span class="dot" style="background:#E8A33D"></span><b>Contoh Klien A</b><small>1 rekening koran belum lengkap</small></div>
+        <div class="ans-row"><span class="dot" style="background:#E8A33D"></span><b>Contoh Klien B</b><small>4 transaksi menunggu review</small></div>
+        <div class="ans-row"><span class="dot" style="background:#1E8E5A"></span><b>Contoh Klien C</b><small>siap ditutup</small></div>
+        <div class="cites"><span class="cite"><svg class="icon" style="font-size:13px"><use href="#i-doc"/></svg>Rekening koran</span><span class="cite"><svg class="icon" style="font-size:13px"><use href="#i-shield"/></svg>Kontrol tutup buku</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8 · TELUSURI ============ -->
+<section class="slide" id="s8" data-title="Telusuri angka">
+  <div class="wrap">
+    <div class="eyebrow rv"><i></i>Jejak sumber</div>
+    <h2 data-split>Setiap angka punya <span class="grad">asal-usul</span>.</h2>
+    <p class="lead rv" style="--d:250">Klik angka di laporan, buka jurnalnya, lihat baris rekening koran asli. Tiga klik dari hasil ke bukti.</p>
+
+    <div class="trace">
+      <div class="card tc rv" style="--d:350"><div class="lab">1 · Laporan</div><h3>Laba Rugi</h3>
+        <div class="tline"><span>Penjualan</span><span>48.200.000</span></div>
+        <div class="tline hl"><span>4100 Penjualan</span><span>48.200.000</span></div>
+        <div class="tline"><span>Beban pokok</span><span>12.600.000</span></div></div>
+      <div class="tconn"><svg viewBox="0 0 60 24"><path d="M2 12h52"/><circle cx="56" cy="12" r="3"/></svg></div>
+      <div class="card tc rv" style="--d:500"><div class="lab">2 · Buku Besar</div><h3>4100 Penjualan</h3>
+        <div class="tline"><span>JE-0141 · 12 Agu</span><span>9.800.000</span></div>
+        <div class="tline hl"><span>JE-0142 · 14 Agu</span><span>48.200.000</span></div>
+        <div class="tline"><span>JE-0143 · 20 Agu</span><span>5.100.000</span></div></div>
+      <div class="tconn c2"><svg viewBox="0 0 60 24"><path d="M2 12h52"/><circle cx="56" cy="12" r="3"/></svg></div>
+      <div class="card tc src rv" style="--d:650"><div class="lab">3 · Sumber</div><h3>Rekening koran</h3>
+        <div class="tline"><span>Berkas</span><span>statement-agu.csv</span></div>
+        <div class="tline hl"><span>Baris</span><span>87</span></div>
+        <div class="rawtext">14/08 TRF PELANGGAN A &nbsp; +48.200.000</div></div>
+    </div>
+
+    <div class="trace-cap rv" style="--d:900">
+      <span><svg class="icon"><use href="#i-check"/></svg>Jurnal tak dapat diubah; koreksi lewat entri baru</span>
+      <span><svg class="icon"><use href="#i-check"/></svg>Jawaban dokumen mengutip bukti yang relevan</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9 · AI + AKUNTAN ============ -->
+<section class="slide" id="s9" data-title="AI & akuntan">
+  <canvas class="bg" id="dots2" aria-hidden="true"></canvas>
+  <div class="wrap grid2">
+    <div>
+      <div class="eyebrow rv"><i></i>Kendali tetap di akuntan</div>
+      <h2 data-split>AI <span class="grad">mengusulkan</span>. Akuntan <span class="grad">memutuskan</span>.</h2>
+      <p class="lead rv" style="--d:250">AI tidak pernah menulis ke buku sendirian. Usulan datang dengan alasan dan tingkat keyakinan; angka dihitung dan diposting oleh aturan akuntansi yang deterministik.</p>
+      <div class="facts">
+        <div class="fact rv" style="--d:350"><span class="ic"><svg class="icon"><use href="#i-layers"/></svg></span><div><b>Aturan &amp; memori dulu</b><span>Setiap keputusan akuntan melatih memori klien, sehingga panggilan AI makin jarang.</span></div></div>
+        <div class="fact rv" style="--d:450"><span class="ic"><svg class="icon"><use href="#i-shield"/></svg></span><div><b>Keyakinan rendah ditandai</b><span>Usulan yang ragu-ragu tidak diterima otomatis.</span></div></div>
+      </div>
+    </div>
+    <div class="rev-wrap rv" style="--d:300">
+      <div class="tilt" id="tilt"><div class="card rvc">
+        <div class="hd"><div><div class="amt">185.000.000</div><div class="meta">Pembelian mesin produksi · 21 Agu</div></div><span class="badge lo" id="bdg">perlu review</span></div>
+        <div class="sug"><div class="k">Usulan akun</div>
+          <div class="acc"><span class="a1">5100 Pembelian <em class="badge lo" style="font-style:normal">62% · rendah</em></span><span class="a2">1210 Aset Tetap <em class="badge ok" style="font-style:normal">disetujui akuntan</em></span></div>
+          <div class="meter"><i></i></div></div>
+        <div class="row"><div>Ubah akun</div><div class="go">Simpan ↵</div></div>
+      </div></div>
+      <div class="roles">
+        <div class="role"><svg class="icon"><use href="#i-sparkle"/></svg><b>AI mengusulkan</b>klasifikasi &amp; alasan</div>
+        <div class="role"><svg class="icon"><use href="#i-review"/></svg><b>Akuntan memutuskan</b>menerima atau mengubah</div>
+        <div class="role"><svg class="icon"><use href="#i-calc"/></svg><b>Mesin memposting</b>jurnal seimbang, terkunci</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 · TUTUP BUKU ============ -->
+<section class="slide" id="s10" data-title="Tutup buku">
+  <div class="wrap grid2">
+    <div>
+      <div class="eyebrow rv"><i></i>Kontrol penutupan</div>
+      <h2 data-split>Tutup buku yang <span class="grad">terkendali</span>, bukan sekadar selesai.</h2>
+      <p class="lead rv" style="--d:250">Kontrol otomatis memeriksa buku sebelum periode dikunci. Setelah dikunci, posting baru ditolak; membuka kembali memerlukan admin dan alasan yang tercatat.</p>
+      <div class="signs rv" style="--d:400"><svg class="icon" style="font-size:24px;color:#8FB4FF"><use href="#i-unlock"/></svg><div>Buka kembali: <b>hanya admin</b>, dengan alasan yang tercatat di log.</div></div>
+    </div>
+    <div class="rv" style="--d:300">
+      <div class="months" id="months"></div>
+      <div class="checks">
+        <div class="chk" style="--i:0"><span class="cb"><svg class="icon"><use href="#i-check"/></svg></span>Neraca saldo seimbang · A = L + E<small>otomatis</small></div>
+        <div class="chk" style="--i:1"><span class="cb"><svg class="icon"><use href="#i-check"/></svg></span>Rekonsiliasi bank &amp; kesinambungan saldo<small>otomatis</small></div>
+        <div class="chk" style="--i:2"><span class="cb"><svg class="icon"><use href="#i-check"/></svg></span>Akun transitori &amp; antar-entitas bersih<small>otomatis</small></div>
+        <div class="chk warn" style="--i:3"><span class="cb"><svg class="icon"><use href="#i-sparkle"/></svg></span>Anomali buku besar — dijelaskan &amp; dicatat<small>review</small></div>
+        <div class="chk" style="--i:4"><span class="cb"><svg class="icon"><use href="#i-lock"/></svg></span>Persetujuan akuntan → kunci periode<small>berurutan</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 · MULTI ENTITAS ============ -->
+<section class="slide" id="s11" data-title="Multi-entitas">
+  <div class="wrap grid2">
+    <div>
+      <div class="eyebrow rv"><i></i>Klien dengan banyak entitas</div>
+      <h2 data-split>Grup, pemilik, dan <span class="grad">mata uang</span> — rapi.</h2>
+      <p class="lead rv" style="--d:250">Satu klien bisa terdiri dari beberapa entitas. Buku memasangkan transfer antar-akun dan antar-entitas, dan menyajikan tampilan gabungan dengan eliminasi.</p>
+      <div class="twocol-list">
+        <div class="fact rv" style="--d:350"><span class="ic"><svg class="icon"><use href="#i-globe"/></svg></span><div><b>Multi-mata-uang</b><span>Mata uang fungsional per entitas, kurs, dan revaluasi akhir bulan.</span></div></div>
+        <div class="fact rv" style="--d:450"><span class="ic"><svg class="icon"><use href="#i-layers"/></svg></span><div><b>Kertas Kerja Gabungan</b><span>Tampilan manajemen dengan eliminasi antar-entitas — bukan konsolidasi SAK, dan dinyatakan begitu.</span></div></div>
+      </div>
+    </div>
+    <svg class="ent rv" style="--d:300" viewBox="0 0 640 520" role="img" aria-label="Ilustrasi: dua entitas dan pemilik dengan transfer antar-entitas yang dieliminasi">
+      <defs><filter id="esh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#1D5BD8" flood-opacity=".15"/></filter>
+        <linearGradient id="eg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1D5BD8"/><stop offset="1" stop-color="#5E8FFF"/></linearGradient></defs>
+      <rect x="10" y="10" width="620" height="500" rx="28" fill="#F7FAFF" stroke="#DCE5F4" stroke-dasharray="6 7"/>
+      <text x="36" y="44" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="11" letter-spacing="1.5" fill="#1D5BD8">GRUP CONTOH · KERTAS KERJA GABUNGAN</text>
+
+      <path class="flow" d="M190 200 C 250 200, 270 120, 330 120" fill="none" stroke="#7FA3EC" stroke-width="2.5" stroke-linecap="round"/>
+      <path class="flow" d="M190 280 C 250 280, 270 360, 330 360" fill="none" stroke="#7FA3EC" stroke-width="2.5" stroke-linecap="round"/>
+      <path class="flow" d="M450 150 C 500 190, 500 280, 450 330" fill="none" stroke="#B7791F" stroke-width="2.5" stroke-linecap="round"/>
+
+      <g filter="url(#esh)"><rect x="40" y="170" width="150" height="140" rx="20" fill="url(#eg)"/><use href="#i-building" x="62" y="190" width="30" height="30" style="fill:none;stroke:#fff;stroke-width:1.6"/><text x="62" y="248" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="15" fill="#fff">Pemilik</text><text x="62" y="268" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="11" fill="#CFE0FF">IDR · pribadi</text><rect x="62" y="280" width="52" height="20" rx="10" fill="#fff" fill-opacity=".22"/><text x="88" y="294" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10" fill="#fff">1 rek.</text></g>
+      <g filter="url(#esh)"><rect x="330" y="60" width="130" height="120" rx="20" fill="#fff" stroke="#E1E8F3"/><use href="#i-building" x="350" y="78" width="28" height="28" style="fill:none;stroke:#1D5BD8;stroke-width:1.6"/><text x="350" y="130" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="14" fill="#0B1B32">PT Contoh</text><text x="350" y="150" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="11" fill="#53627C">IDR</text><rect x="350" y="158" width="56" height="16" rx="8" fill="#EDF2FD"/><text x="378" y="170" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="9" fill="#1D5BD8">PSAK 10</text></g>
+      <g filter="url(#esh)"><rect x="330" y="300" width="130" height="120" rx="20" fill="#fff" stroke="#E1E8F3"/><use href="#i-globe" x="350" y="318" width="28" height="28" style="fill:none;stroke:#1D5BD8;stroke-width:1.6"/><text x="350" y="370" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="14" fill="#0B1B32">CV Contoh</text><text x="350" y="390" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="11" fill="#53627C">USD → IDR</text></g>
+
+      <g><rect x="486" y="206" width="124" height="68" rx="16" fill="#FFF6E0" stroke="#F2D9A3"/><text x="548" y="232" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10" letter-spacing="1" fill="#B7791F">ANTAR-ENTITAS</text><text x="548" y="256" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="15" fill="#7A5517">dieliminasi ✓</text></g>
+      <g><rect x="40" y="440" width="560" height="44" rx="14" fill="#E5F6EE"/><text x="320" y="468" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="12.5" fill="#1E8E5A">Antar entitas cocok — selisih eliminasi: 0</text></g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ 12 · CTA ============ -->
+<section class="slide" id="s12" data-title="Mulai">
+  <canvas class="bg" id="aurora2" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="eyebrow rv"><i></i>Mulai dengan Buku</div>
+    <h2 data-split>Siap menutup buku <span class="grad">lebih tenang</span> bulan ini?</h2>
+    <p class="lead rv" style="--d:250">Lihat Buku bekerja dengan data klien Anda — dari rekening koran pertama sampai bulan yang terkunci.</p>
+
+    <div class="stats">
+      <div class="card stat rv" style="--d:350"><div class="num grad" data-count="5">0</div><span>laporan keuangan dalam satu paket</span></div>
+      <div class="card stat rv" style="--d:450"><div class="num grad" data-count="4">0</div><span>langkah menuju tutup buku pertama</span></div>
+      <div class="card stat rv" style="--d:550"><div class="num grad" data-count="12">0</div><span>modul akuntansi terintegrasi</span></div>
+    </div>
+
+    <div class="qs rv" style="--d:650"><b>Mulai</b><span>Undang tim</span><i>→</i><span>Tambah klien</span><i>→</i><span>Unggah data</span><i>→</i><span>Saldo awal</span><i>→</i><span>Review</span><i>→</i><span>Tutup buku</span></div>
+
+    <div class="btns rv" style="--d:750">
+      <span class="magnet"><a class="btn pri" data-cta href="#">Jadwalkan demo <svg class="icon"><use href="#i-arrow"/></svg></a></span>
+      <a class="btn" href="#s1">Kembali ke awal</a>
+    </div>
+    <div class="foot rv" style="--d:850"><img src="assets/buku-mark.svg" alt=""><span><b>Buku</b> — produk Right-Jet</span><span>Akses hanya melalui undangan.</span></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* ============================================================
+   Konfigurasi — ubah kontak demo di sini (satu tempat)
+   ============================================================ */
+const CONTACT = {
+  href: 'mailto:demo@example.com?subject=Demo%20Buku', // TODO: ganti dengan email / WhatsApp / tautan jadwal sebenarnya
+  label: 'Jadwalkan demo'
+};
+
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const slides = $$('.slide');
+
+/* ---------- CTA links ---------- */
+$$('[data-cta]').forEach(a => { a.href = CONTACT.href; });
+
+/* ---------- Blur-text splitter (React Bits "BlurText" style) ---------- */
+function splitWords(root){
+  let idx = 0;
+  (function walk(node){
+    [...node.childNodes].forEach(n=>{
+      if(n.nodeType===3){
+        const frag=document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(tok=>{
+          if(!tok) return;
+          if(/^\s+$/.test(tok)){ frag.appendChild(document.createTextNode(' ')); return; }
+          const s=document.createElement('span'); s.className='w'; s.style.setProperty('--i',idx++); s.textContent=tok; frag.appendChild(s);
+        });
+        n.replaceWith(frag);
+      } else if(n.nodeType===1){ walk(n); }
+    });
+  })(root);
+  // background-clip text needs the gradient on the inline-block word spans themselves
+  $$('.grad',root).forEach(g=>{ g.classList.remove('grad'); $$('.w',g).forEach(w=>w.classList.add('grad')); });
+}
+$$('[data-split]').forEach(splitWords);
+
+/* ---------- Reveal slides when in view ---------- */
+const slideIO = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); if(e.target.id==='s12') runCount(); } });
+},{threshold:.35});
+slides.forEach(s=>slideIO.observe(s));
+// print / no-IO fallback
+window.addEventListener('beforeprint',()=>slides.forEach(s=>s.classList.add('in')));
+
+/* ---------- Navigation: rail, progress, keyboard, touch ---------- */
+const rail = $('#rail');
+slides.forEach((s,i)=>{
+  const b=document.createElement('button'); b.setAttribute('aria-label',`Slide ${i+1}: ${s.dataset.title}`);
+  b.innerHTML=`<span>${String(i+1).padStart(2,'0')} · ${s.dataset.title}</span>`; b.onclick=()=>go(i); rail.appendChild(b);
+});
+let cur = 0;
+function go(i){ i=Math.max(0,Math.min(slides.length-1,i)); slides[i].scrollIntoView({behavior:REDUCED?'auto':'smooth'}); }
+const curIO = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ cur=slides.indexOf(e.target); paint(); } });
+},{threshold:.6});
+slides.forEach(s=>curIO.observe(s));
+function paint(){
+  $$('button',rail).forEach((b,i)=>b.classList.toggle('on',i===cur));
+  $('#counter').textContent = `${String(cur+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
+  $('#bar').style.width = ((cur+1)/slides.length*100)+'%';
+}
+paint();
+addEventListener('keydown',e=>{
+  if(e.metaKey||e.ctrlKey||e.altKey) return;
+  const k=e.key;
+  if(['ArrowRight','ArrowDown','PageDown',' '].includes(k)){ e.preventDefault(); go(cur+1); }
+  else if(['ArrowLeft','ArrowUp','PageUp'].includes(k)){ e.preventDefault(); go(cur-1); }
+  else if(k==='Home'){ go(0); } else if(k==='End'){ go(slides.length-1); }
+  else if(k==='f'||k==='F'){ document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.(); }
+});
+let tx=0,ty=0;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.6) go(cur+(dx<0?1:-1));
+},{passive:true});
+
+/* ---------- Build repeated UI ---------- */
+// Modules (Spotlight cards)
+const MODS = [
+  ['i-import','Impor Mutasi','Rekening koran dari berbagai bank dan buku besar lama, dengan cek kesinambungan saldo.','Impor'],
+  ['i-review','Review transaksi','Usulan akun beserta alasan dan tingkat keyakinan — terima sekali tekan.','Review'],
+  ['i-ledger','Buku Besar','Double-entry, entri tak dapat diubah, ditelusuri sampai baris sumber.','Inti'],
+  ['i-tb','Neraca Saldo','Saldo awal, mutasi, dan saldo akhir per akun.','Laporan'],
+  ['i-report','Laporan Keuangan','Laba Rugi, Neraca, Perubahan Ekuitas, Arus Kas, CALK — unduh Excel &amp; PDF.','Laporan'],
+  ['i-ar','Piutang &amp; Utang','Faktur dengan PPN, umur piutang, dan pelunasan langsung dari baris bank.','Subledger'],
+  ['i-stock','Persediaan','Stok opname bulanan dan perhitungan HPP.','Subledger'],
+  ['i-asset','Aset Tetap','Register aset dan penyusutan komersial &amp; fiskal.','PSAK 16'],
+  ['i-lease','Sewa','Aset hak guna dan liabilitas sewa beserta jadwal amortisasi.','PSAK 116'],
+  ['i-people','Imbalan Kerja','Estimasi imbalan pascakerja dengan jurnal sekali klik.','PSAK 24'],
+  ['i-tax','Pajak Badan','Rekonsiliasi fiskal dan kertas kerja PPh badan — estimasi, bukan SPT.','Pajak'],
+  ['i-adjust','Jurnal Penyesuaian','Jadwal penyusutan dan akrual, plus balik jurnal.','Penyesuaian']
+];
+$('#mods').innerHTML = MODS.map((m,i)=>`<div class="mod spot rv" style="--d:${300+i*55}"><div class="top"><div class="mi"><svg class="icon"><use href="#${m[0]}"/></svg></div><span class="tag">${m[3]}</span></div><h3>${m[1]}</h3><p>${m[2]}</p></div>`).join('');
+
+// Months row
+const MO=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+$('#months').innerHTML = MO.slice(0,6).map((m,i)=>`<div class="mo ${i<4?'lk':i===4?'cur':''}"><svg class="icon"><use href="#${i<4?'i-lock':i===4?'i-clock':'i-unlock'}"/></svg>${m}</div>`).join('');
+
+// Marquee chips
+const FILE = (ext,color)=>`<svg class="fi" viewBox="0 0 42 48"><path d="M4 4a3 3 0 013-3h19l12 12v31a3 3 0 01-3 3H7a3 3 0 01-3-3V4z" fill="${color}" fill-opacity=".12" stroke="${color}" stroke-width="1.5"/><path d="M26 1v9a3 3 0 003 3h9" fill="none" stroke="${color}" stroke-width="1.5"/><text x="21" y="35" text-anchor="middle" font-family="JetBrains Mono,ui-monospace,Menlo,Consolas,monospace" font-size="10" font-weight="500" fill="${color}">${ext}</text></svg>`;
+const R1=[['PDF','Rekening koran','teks · terproteksi sandi','#C2410C'],['CSV','Mutasi bank','kolom dikenali otomatis','#1E8E5A'],['XLSX','Salinan kerja akuntan','satu sheet per bulan','#1E8E5A'],['XLS','Excel lama','termasuk HTML-as-.xls','#1E8E5A'],['GL','Buku besar lama','Jurnal · Accurate · Excel','#1D5BD8'],['NS','Neraca saldo','dipetakan ke akun Buku','#1D5BD8']];
+const R2=[['LK','Laporan keuangan','dibaca &amp; dibandingkan','#7B6CF0'],['PRO','Profil perusahaan','usulan konteks','#7B6CF0'],['DOC','Google Docs','bukti pendukung','#1D5BD8'],['SHT','Google Sheets','bukti pendukung','#1E8E5A'],['TXT','TXT &amp; Markdown','catatan &amp; dokumen','#53627C'],['PDF','Dokumen pendukung','dapat dicari + sumber','#C2410C']];
+const chip=(a)=>`<div class="chip">${FILE(a[0],a[3])}<div>${a[1]}<em>${a[2]}</em></div></div>`;
+$('#t1').innerHTML = (R1.concat(R1)).map(chip).join('');
+$('#t2').innerHTML = (R2.concat(R2)).map(chip).join('');
+
+/* ---------- Workflow stepper ---------- */
+const STEPS=[
+ {t:'Impor',p:'Unggah rekening koran atau buku besar lama. Format dikenali, saldo berjalan diperiksa, dan unggahan ganda disaring.',c:['deteksi format','cek saldo berjalan','anti-duplikat']},
+ {t:'Klasifikasi',p:'Pasangan transfer antar-akun, aturan, dan memori klien bekerja lebih dulu. AI hanya menangani sisanya — hemat dan terukur.',c:['transfer cocok','aturan klien','AI untuk sisanya']},
+ {t:'Review',p:'Akuntan memeriksa usulan, mengubah akun bila perlu, dan menerima dengan sekali tekan. Keputusan melatih memori klien.',c:['alasan & keyakinan','satu tekan','memori belajar']},
+ {t:'Laporan',p:'Laba Rugi, Neraca, Perubahan Ekuitas, Arus Kas, dan CALK dihitung dari jurnal yang sudah diposting — final atau draf, jelas statusnya.',c:['Excel &amp; PDF','Final / Draf','telusuri sumber']},
+ {t:'Tutup buku',p:'Kontrol otomatis, catatan, dan persetujuan — lalu periode dikunci. Posting baru ke bulan terkunci ditolak.',c:['kontrol otomatis','persetujuan','kunci periode']}
+];
+const sb=$('#stepbox'), svs=$$('.sv'), stEls=$$('.step'); let si=0, stTimer;
+function setStep(i,user){
+  si=i; stEls.forEach((s,k)=>{s.classList.toggle('on',k===i);s.classList.toggle('done',k<i)});
+  $('#pfill').style.width = (i/(STEPS.length-1)*100)+'%';
+  const d=STEPS[i]; sb.innerHTML=`<div class="eyebrow" style="margin-bottom:10px">Langkah ${i+1} dari 5</div><h4>${d.t}</h4><p>${d.p}</p><ul>${d.c.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+  svs.forEach((v,k)=>v.classList.toggle('on',k===i));
+  if(user){ clearInterval(stTimer); stTimer=null; }
+}
+stEls.forEach((s,i)=>s.addEventListener('click',()=>setStep(i,true)));
+setStep(0);
+const s4 = $('#s4');
+new IntersectionObserver(es=>{ es.forEach(e=>{
+  if(e.isIntersecting && !stTimer && !REDUCED){ stTimer=setInterval(()=>setStep((si+1)%STEPS.length),3600); }
+  if(!e.isIntersecting && stTimer){ clearInterval(stTimer); stTimer=null; }
+});},{threshold:.4}).observe(s4);
+
+/* ---------- Spotlight card (React Bits "SpotlightCard" style) ---------- */
+document.addEventListener('pointermove',e=>{
+  const c=e.target.closest?.('.spot'); if(!c) return;
+  const r=c.getBoundingClientRect(); c.style.setProperty('--mx',(e.clientX-r.left)+'px'); c.style.setProperty('--my',(e.clientY-r.top)+'px');
+});
+
+/* ---------- Magnet button ---------- */
+if(!REDUCED) $$('.magnet').forEach(w=>{
+  addEventListener('pointermove',e=>{
+    const r=w.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, dx=e.clientX-cx, dy=e.clientY-cy;
+    if(Math.hypot(dx,dy)<110) w.style.transform=`translate(${dx*.28}px,${dy*.28}px)`; else w.style.transform='';
+  });
+});
+
+/* ---------- Tilted card ---------- */
+(function(){
+  const t=$('#tilt'); if(!t||REDUCED) return;
+  t.addEventListener('pointermove',e=>{
+    const r=t.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    t.style.transform=`rotateY(${x*14}deg) rotateX(${-y*14}deg)`;
+  });
+  t.addEventListener('pointerleave',()=>t.style.transform='');
+})();
+
+/* ---------- Count up ---------- */
+let counted=false;
+function runCount(){
+  if(counted) return; counted=true;
+  $$('[data-count]').forEach(el=>{
+    const to=+el.dataset.count; if(REDUCED){ el.textContent=to; return; }
+    const t0=performance.now(), D=1400;
+    (function f(t){ const p=Math.min(1,(t-t0)/D), e=1-Math.pow(1-p,4); el.textContent=Math.round(to*e); if(p<1) requestAnimationFrame(f); })(t0);
+  });
+}
+if(REDUCED) $$('[data-count]').forEach(el=>el.textContent=el.dataset.count);
+
+/* ---------- Aurora background (WebGL, React Bits "Aurora" style) ---------- */
+function aurora(cv, seed){
+  const gl=cv.getContext('webgl',{premultipliedAlpha:true,alpha:true,antialias:false}); if(!gl) return;
+  const vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  const fs=`precision mediump float;uniform vec2 uR;uniform float uT;uniform float uS;
+  float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+  float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+  float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p*=2.02;a*=.5;}return v;}
+  void main(){
+    vec2 uv=gl_FragCoord.xy/uR; float t=uT*.07+uS;
+    float a=fbm(vec2(uv.x*2.1+t,uv.y*1.3-t*.6));
+    float b=fbm(vec2(uv.x*1.5-t*.8,uv.y*2.2+t)+4.3);
+    vec3 sky=vec3(.50,.69,1.), vio=vec3(.72,.66,1.), mint=vec3(.62,.90,.93);
+    vec3 col=mix(sky,vio,a); col=mix(col,mint,b*.65);
+    float band=smoothstep(.30,.95,a*.85+uv.y*.40);
+    float fade=smoothstep(.0,.55,1.-uv.y*.55)*.8+.1;
+    float al=band*fade*.62;
+    gl_FragColor=vec4(col*al,al);
+  }`;
+  const mk=(t,s)=>{const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);return x};
+  const pr=gl.createProgram(); gl.attachShader(pr,mk(gl.VERTEX_SHADER,vs)); gl.attachShader(pr,mk(gl.FRAGMENT_SHADER,fs)); gl.linkProgram(pr);
+  if(!gl.getProgramParameter(pr,gl.LINK_STATUS)) return;
+  gl.useProgram(pr);
+  const buf=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buf); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const loc=gl.getAttribLocation(pr,'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  const uR=gl.getUniformLocation(pr,'uR'), uT=gl.getUniformLocation(pr,'uT'), uS=gl.getUniformLocation(pr,'uS');
+  gl.uniform1f(uS,seed);
+  function size(){ const d=Math.min(devicePixelRatio||1,1.5); cv.width=cv.clientWidth*d*.6|0; cv.height=cv.clientHeight*d*.6|0; gl.viewport(0,0,cv.width,cv.height); gl.uniform2f(uR,cv.width,cv.height); }
+  size(); addEventListener('resize',size);
+  let vis=true, raf; const t0=performance.now();
+  function draw(now){ gl.uniform1f(uT,(now-t0)/1000); gl.clearColor(0,0,0,0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES,0,3); if(vis&&!REDUCED) raf=requestAnimationFrame(draw); }
+  new IntersectionObserver(es=>{ vis=es[0].isIntersecting; if(vis){ cancelAnimationFrame(raf); raf=requestAnimationFrame(draw);} }).observe(cv);
+  requestAnimationFrame(draw);
+}
+['aurora','aurora2'].forEach((id,i)=>{ const c=document.getElementById(id); if(c) try{ aurora(c,i*3.7) }catch(e){} });
+
+/* ---------- Dot grid (React Bits "DotGrid" style) ---------- */
+function dotGrid(cv){
+  const ctx=cv.getContext('2d'); let W,H,dots=[],mx=-999,my=-999,vis=true,raf;
+  const GAP=30, R=1.7;
+  function size(){ const d=Math.min(devicePixelRatio||1,2); W=cv.clientWidth; H=cv.clientHeight; cv.width=W*d; cv.height=H*d; ctx.setTransform(d,0,0,d,0,0);
+    dots=[]; for(let y=GAP/2;y<H;y+=GAP) for(let x=GAP/2;x<W;x+=GAP) dots.push([x,y]); }
+  size(); addEventListener('resize',size);
+  const host=cv.parentElement; host.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top});
+  host.addEventListener('pointerleave',()=>{mx=my=-999});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(const [x,y] of dots){
+      const d=Math.hypot(x-mx,y-my), k=Math.max(0,1-d/150);
+      ctx.beginPath(); ctx.arc(x,y,R+k*3.4,0,6.283);
+      ctx.fillStyle=k>0?`rgba(${(201-k*172)|0},${(214-k*123)|0},${(240-k*24)|0},${.85})`:'rgba(201,214,240,.7)'; ctx.fill();
+    }
+    if(vis&&!REDUCED) raf=requestAnimationFrame(draw);
+  }
+  new IntersectionObserver(es=>{ vis=es[0].isIntersecting; if(vis){ cancelAnimationFrame(raf); raf=requestAnimationFrame(draw);} }).observe(cv);
+  draw();
+}
+['dots','dots2'].forEach(id=>{ const c=document.getElementById(id); if(c) dotGrid(c); });
+
+// Slide 1 is visible immediately
+requestAnimationFrame(()=>slides[0].classList.add('in'));
+</script>
+</body>
+</html>
